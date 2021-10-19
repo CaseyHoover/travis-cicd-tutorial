@@ -1,7 +1,8 @@
 language: node_js
 node_js:
   - "14"
-dist: trusty
+arch: arm64
+dist: focal
 sudo: required
 before_script:
   - cd travis-demo
