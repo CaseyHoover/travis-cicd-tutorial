@@ -21,10 +21,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and npm run build
+      - name: npm install cli and build tools
         run: |
-          npm i
-          npm run build:prod
+          npm install -g @angular/cli
+          npm install --save-dev @angular-devkit/build-angular
+      - name: ng lint and build
+        run: |
+          ng lint
+          ng build --prod --base-href https://caseyhoover.github.io/travis-demo/
         working-directory: travis-demo
       - name: Push Build to Releases
         uses: ncipollo/release-action@v1
