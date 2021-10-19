@@ -3,7 +3,6 @@ node_js:
   - "9"
 dist: trusty
 sudo: required
-branches: all_branches
 before_script:
   - npm install -g @angular/cli
 script:
