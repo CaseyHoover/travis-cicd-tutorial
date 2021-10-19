@@ -4,6 +4,7 @@ node_js:
 dist: trusty
 sudo: required
 before_script:
+  - cd travis-demo
   - npm install -g @angular/cli
 script:
 - ng lint
