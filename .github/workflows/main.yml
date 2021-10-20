@@ -34,8 +34,8 @@ jobs:
           ng build --prod --base-href https://caseyhoover.github.io/travis-demo/
         working-directory: travis-demo
 
-      - name: Push Build to Releases
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "dist/angular-githubaction/*"
-          token: ${{ secrets.CICD }}
+      # - name: Push Build to Release
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #     artifacts: "dist/angular-githubaction/*"
+      #     token: ${{ secrets.CICD }}
