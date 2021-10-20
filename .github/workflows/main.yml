@@ -5,10 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
 
     steps:
-    
       - uses: actions/checkout@v1
       - name: Cache node modules
         uses: actions/cache@v1
@@ -17,20 +16,24 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install cli and build tools
+
+      - name: npm install cli and build devkit
         run: |
           npm install -g @angular/cli
           npm install --save-dev @angular-devkit/build-angular
         working-directory: travis-demo
+
       - name: ng lint and build
         run: |
           ng lint
           ng build --prod --base-href https://caseyhoover.github.io/travis-demo/
         working-directory: travis-demo
+
       - name: Push Build to Releases
         uses: ncipollo/release-action@v1
         with:
