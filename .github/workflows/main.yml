@@ -44,7 +44,7 @@ jobs:
         with:
           context: ./travis-demo
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:pr
+          tags: ${{ env.REGISTRY }}/${{ github.actor }}:pr
           labels: ${{ steps.meta.outputs.labels }}
           file: ./travis-demo/Dockerfile-test
 
