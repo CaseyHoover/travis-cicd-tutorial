@@ -74,7 +74,7 @@ jobs:
       #   run: docker build -f Dockerfile-test --tag job .
 
       - name: Start Docker Container
-        run: docker run -t -d --name="test-container" ghcr.io/caseyhoover/travis-cicd-tutorial
+        run: docker run -t -d --name="test-container" ghcr.io/caseyhoover/travis-cicd-tutorial:pr
         
       - name: Lint Angular Project
         run: docker exec test-container ng lint
