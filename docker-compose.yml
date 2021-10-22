@@ -1,0 +1,13 @@
+version: '3.8' # specify docker-compose version
+ 
+# Define the services/ containers to be run
+services:
+    angular-app: # define frontend service
+        container_name: ${CONTAINER_NAME}
+        build: # specify the directory of the Dockerfile
+            context: ${APP_PATH}
+            dockerfile: ${DOCKERFILE_NAME}
+        volumes: # share Angular application directory with container
+            - '${APP_PATH}:/app'
+        ports: #specify ports mapping
+            - '${PORT_NUMBER}:${PORT_NUMBER}'
