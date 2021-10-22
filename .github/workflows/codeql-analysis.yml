@@ -16,6 +16,10 @@ on:
   pull_request:
     branches: [main]
 
+paths-ignore:
+  - src/node_modules
+  - src/coverage
+
 jobs:
   analyze:
     name: Analyze
