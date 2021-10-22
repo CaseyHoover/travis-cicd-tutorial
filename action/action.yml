@@ -3,4 +3,4 @@ name: 'Run Angular Tests in Docker'
 description: 'F'
 runs:
   using: 'docker'
-  image: './travis-demo/Dockerfile-test'
+  image: 'Dockerfile-test'
