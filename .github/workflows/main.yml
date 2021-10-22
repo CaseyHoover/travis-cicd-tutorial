@@ -37,11 +37,13 @@ jobs:
   docker-build:
       runs-on: ubuntu-latest
       name: Generate Docker Build
+      defaults:
+        run:
+          working-directory: ./travis-demo
       steps:
         - uses: actions/checkout@v1
         - name: My first step
           uses: ./action
-          working-directory: travis-demo
 
       # - name: Push Build to Release
       #   uses: ncipollo/release-action@v1
