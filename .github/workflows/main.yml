@@ -84,7 +84,10 @@ jobs:
 
       - name: Copy Coverage Report to Host
         run: |
+          docker exec test-container ls /app/coverage/travis-demo/
+          docker exec test-container cat /app/coverage/travis-demo/lcov.info
           docker cp test-container:/app/coverage/travis-demo/lcov.info .
+          ls
           cat ./locov.info
 
       - name: Upload coverage to Codecov
