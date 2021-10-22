@@ -39,8 +39,9 @@ jobs:
       name: Generate Docker Build
       steps:
         - name: Test docker
+        - uses: actions/checkout@v1
           id: docker-build
-          uses: actions/travis-cicd-tutorial@v1
+          uses: ./action
 
       # - name: Push Build to Release
       #   uses: ncipollo/release-action@v1
