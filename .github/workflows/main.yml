@@ -54,10 +54,10 @@ jobs:
         run: docker build -f Dockerfile-test --tag job .
 
       - name: Lint Angular Project
-        run: docker run --rm -it job ng lint
+        run: docker run --rm job ng lint
 
       - name: Run Angular Unit Tests
-        run: docker run --rm -it job ng test --watch=false
+        run: docker run --rm job ng test --watch=false
 
       # - name: Push Build to Release
       #   uses: ncipollo/release-action@v1
