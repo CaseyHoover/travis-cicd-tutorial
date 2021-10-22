@@ -40,7 +40,7 @@ jobs:
       steps:
         - name: Test docker
           id: docker-build
-          uses: actions/travis-cicd-tutorial-action
+          uses: actions/travis-cicd-tutorial-action@v1
 
       # - name: Push Build to Release
       #   uses: ncipollo/release-action@v1
