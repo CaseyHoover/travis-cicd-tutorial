@@ -31,9 +31,9 @@ jobs:
 
       - name: Copy Coverage Report to Host
         run: |
-          docker cp test-container:/app/coverage/travis-demo/coverage-final.json ..
+          docker cp test-container:/app/coverage/travis-demo/lcov.info ..
           pwd
-          cat ./coverage-final.json
+          cat ../lcov.info
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
