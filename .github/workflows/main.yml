@@ -85,12 +85,7 @@ jobs:
       - name: Copy Coverage Report to Host
         run: |
           docker cp test-container:/app/coverage/travis-demo/lcov.info .
-          echo "TESTING" > testfile.txt
-          tree
-          pwd
-          ls
-          cat /home/runner/work/travis-cicd-tutorial/travis-cicd-tutorial/testfile.txt
-          cat /home/runner/work/travis-cicd-tutorial/travis-cicd-tutorial/locov.info
+          cat ./lcov.info
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
