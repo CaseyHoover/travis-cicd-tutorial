@@ -43,7 +43,8 @@ jobs:
       steps:
         - uses: actions/checkout@v1
         - name: My first step
-          uses: ./action
+          run: |
+            docker build -f Dockerfile-test -t build-test .
 
       # - name: Push Build to Release
       #   uses: ncipollo/release-action@v1
