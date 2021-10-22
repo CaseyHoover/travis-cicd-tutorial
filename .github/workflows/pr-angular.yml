@@ -1,93 +1,93 @@
-name: Angular Workflow
+# name: Angular Workflow
 
-env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+# env:
+#   REGISTRY: ghcr.io
+#   IMAGE_NAME: ${{ github.repository }}
 
-on:
-  pull_request:
-    branches: [main]
+# on:
+#   pull_request:
+#     branches: [main]
     
-jobs:
-  build-and-push-image:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+# jobs:
+#   build-and-push-image:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: read
+#       packages: write
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
 
-      - name: Log in to the Container registry
-        uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+#       - name: Log in to the Container registry
+#         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
+#         with:
+#           registry: ${{ env.REGISTRY }}
+#           username: ${{ github.actor }}
+#           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+#       - name: Extract metadata (tags, labels) for Docker
+#         id: meta
+#         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+#         with:
+#           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: View PWD
-        run: |
-          ls -al
-          pwd
+#       - name: View PWD
+#         run: |
+#           ls -al
+#           pwd
 
-      - name: Build and push Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: ./travis-demo
-          push: true
-          tags: ${{ env.REGISTRY }}/caseyhoover/travis-cicd-tutorial:pr
-          labels: ${{ steps.meta.outputs.labels }}
-          file: ./travis-demo/Dockerfile-test
+#       - name: Build and push Docker image
+#         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+#         with:
+#           context: ./travis-demo
+#           push: true
+#           tags: ${{ env.REGISTRY }}/caseyhoover/travis-cicd-tutorial:pr
+#           labels: ${{ steps.meta.outputs.labels }}
+#           file: ./travis-demo/Dockerfile-test
 
-  lint-project:
-      runs-on: ubuntu-latest
-      needs: build-and-push-image
-      steps:
-      - name: Download Docker Image
-        run: |
-          docker pull ghcr.io/caseyhoover/travis-cicd-tutorial:pr
-          docker images
+#   lint-project:
+#       runs-on: ubuntu-latest
+#       needs: build-and-push-image
+#       steps:
+#       - name: Download Docker Image
+#         run: |
+#           docker pull ghcr.io/caseyhoover/travis-cicd-tutorial:pr
+#           docker images
 
-      - name: Start Docker Container
-        run: docker run -t -d --name="test-container" ghcr.io/caseyhoover/travis-cicd-tutorial:pr
+#       - name: Start Docker Container
+#         run: docker run -t -d --name="test-container" ghcr.io/caseyhoover/travis-cicd-tutorial:pr
         
-      - name: Lint Angular Project
-        run: docker exec test-container ng lint
+#       - name: Lint Angular Project
+#         run: docker exec test-container ng lint
 
-  tests-and-code-coverage:
-      runs-on: ubuntu-latest
-      needs: build-and-push-image
-      steps:
-      - name: Download Docker Image
-        run: |
-          docker pull ghcr.io/caseyhoover/travis-cicd-tutorial:pr
-          docker images
+#   tests-and-code-coverage:
+#       runs-on: ubuntu-latest
+#       needs: build-and-push-image
+#       steps:
+#       - name: Download Docker Image
+#         run: |
+#           docker pull ghcr.io/caseyhoover/travis-cicd-tutorial:pr
+#           docker images
 
-      - name: Start Docker Container
-        run: docker run -t -d --name="test-container" ghcr.io/caseyhoover/travis-cicd-tutorial:pr
+#       - name: Start Docker Container
+#         run: docker run -t -d --name="test-container" ghcr.io/caseyhoover/travis-cicd-tutorial:pr
 
-      - name: Run Angular Unit Tests
-        run: docker exec test-container ng test --watch=false
+#       - name: Run Angular Unit Tests
+#         run: docker exec test-container ng test --watch=false
 
-      - name: Copy Coverage Report to Host
-        run: |
-          docker cp test-container:/app/coverage/travis-demo/lcov.info .
-          cat ./lcov.info
+#       - name: Copy Coverage Report to Host
+#         run: |
+#           docker cp test-container:/app/coverage/travis-demo/lcov.info .
+#           cat ./lcov.info
 
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v2
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
-          files: ./lcov.info
-          verbose: true
+#       - name: Upload coverage to Codecov
+#         uses: codecov/codecov-action@v2
+#         with:
+#           token: ${{ secrets.CODECOV_TOKEN }}
+#           fail_ci_if_error: true
+#           files: ./lcov.info
+#           verbose: true
 
-      - name: Stop Docker Container
-        run: docker stop test-container
+#       - name: Stop Docker Container
+#         run: docker stop test-container
