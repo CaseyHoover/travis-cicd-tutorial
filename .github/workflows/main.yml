@@ -31,7 +31,7 @@ jobs:
 
       - name: Copy Coverage Report to Host
         run: |
-          docker cp test-container:/app/coverage/travis-demo/coverage-final.json .
+          docker cp test-container:/app/coverage/travis-demo/coverage-final.json ..
           pwd
           cat ./coverage-final.json
 
@@ -40,7 +40,7 @@ jobs:
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: true
-          files: ./coverage-final.json
+          files: ./lcov.info
           verbose: true
 
       # - name: Push Build to Release
