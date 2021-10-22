@@ -50,10 +50,11 @@ jobs:
 
   docker-test:
       runs-on: ubuntu-latest
-      name: Tests/Code Coverage
-      defaults:
-        run:
-          working-directory: ./travis-demo
+      name: Tests and Code Coverage
+      needs: build-and-push-image
+      # defaults:
+      #   run:
+      #     working-directory: ./travis-demo
       steps:
       # - uses: actions/checkout@v1
       # - name: Cache node modules
@@ -94,6 +95,9 @@ jobs:
           fail_ci_if_error: true
           files: ./lcov.info
           verbose: true
+
+      - name: Stop Docker Container
+              run: docker stop test-container
 
       # - name: Push Build to Release
       #   uses: ncipollo/release-action@v1
