@@ -66,15 +66,13 @@ jobs:
       #       ${{ runner.os }}-node-
 
       - name: Download Docker Image
-        run: |
-          docker pull ghcr.io/caseyhoover/travis-cicd-tutorial:pr
-          docker image tag job:latest ghcr.io/caseyhoover/travis-cicd-tutorial:pr
+        run: docker pull ghcr.io/caseyhoover/travis-cicd-tutorial:pr
 
       # - name: Build Docker Image
       #   run: docker build -f Dockerfile-test --tag job .
 
       - name: Start Docker Container
-        run: docker run -t -d --name="test-container" job
+        run: docker run -t -d --name="test-container" ghcr.io/caseyhoover/travis-cicd-tutorial
         
       - name: Lint Angular Project
         run: docker exec test-container ng lint
@@ -83,10 +81,7 @@ jobs:
         run: docker exec test-container ng test --watch=false
 
       - name: Copy Coverage Report to Host
-        run: |
-          docker cp test-container:/app/coverage/travis-demo/lcov.info ..
-          pwd
-          cat ../lcov.info
+        run: docker cp test-container:/app/coverage/travis-demo/lcov.info ..
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
