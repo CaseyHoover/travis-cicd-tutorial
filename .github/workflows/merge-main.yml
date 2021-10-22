@@ -1,4 +1,4 @@
-Name: Merge Main Workflow
+name: Merge Main Workflow
 
 on:
   push:
