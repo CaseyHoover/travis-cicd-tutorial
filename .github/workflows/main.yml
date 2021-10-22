@@ -46,7 +46,7 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          file: ./Dockerfile-test
+          file: ./travis-demo/Dockerfile-test
 
   docker-test:
       runs-on: ubuntu-latest
