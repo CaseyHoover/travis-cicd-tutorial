@@ -83,7 +83,10 @@ jobs:
         run: docker exec test-container ng test --watch=false
 
       - name: Copy Coverage Report to Host
-        run: docker cp test-container:/app/coverage/travis-demo/lcov.info ..
+        run: |
+          docker cp test-container:/app/coverage/travis-demo/lcov.info ..
+          pwd
+          cat ./locov.info
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
