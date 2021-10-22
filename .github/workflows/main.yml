@@ -85,6 +85,7 @@ jobs:
       - name: Copy Coverage Report to Host
         run: |
           docker cp test-container:/app/coverage/travis-demo/lcov.info .
+          tree
           pwd
           ls
           cat locov.info
