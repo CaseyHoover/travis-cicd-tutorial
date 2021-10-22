@@ -1,5 +1,9 @@
 name: Angular Workflow
-on: pull_request
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 jobs:
   docker-test:
       runs-on: ubuntu-latest
@@ -20,11 +24,28 @@ jobs:
       - name: Build Docker Image
         run: docker build -f Dockerfile-test --tag job .
 
+      - name: Start Docker Container
+        run: docker run -t -d --name="test-container" job
+        
       - name: Lint Angular Project
-        run: docker run --rm job ng lint
+        run: docker exec test-container ng lint
 
       - name: Run Angular Unit Tests
-        run: docker run --rm job ng test --watch=false
+        run: docker exec test-container ng test --watch=false
+
+      - name: Copy Coverage Report to Host
+        run: |
+          docker cp test-container:/app/coverage/travis-demo/lcov.info ..
+          pwd
+          cat ../lcov.info
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          files: ./lcov.info
+          verbose: true
 
       # - name: Push Build to Release
       #   uses: ncipollo/release-action@v1
