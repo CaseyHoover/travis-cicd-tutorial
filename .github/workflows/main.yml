@@ -31,14 +31,14 @@ jobs:
 
       - name: Copy Coverage Report to Host
         run: docker cp test-container:travis-demo/coverage/travis-demo/coverage-final.json .
-        
+
       - name: Upload coverage to Codecov
-            uses: codecov/codecov-action@v2
-            with:
-              token: ${{ secrets.CODECOV_TOKEN }}
-              fail_ci_if_error: true
-              files: ./coverage-final.json
-              verbose: true
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          files: ./coverage-final.json
+          verbose: true
 
       # - name: Push Build to Release
       #   uses: ncipollo/release-action@v1
