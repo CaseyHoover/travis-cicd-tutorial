@@ -50,22 +50,27 @@ jobs:
 
   docker-test:
       runs-on: ubuntu-latest
-      name: Analyze Dockerized Angular Project 
+      name: Tests/Code Coverage
       defaults:
         run:
           working-directory: ./travis-demo
       steps:
-      - uses: actions/checkout@v1
-      - name: Cache node modules
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      # - uses: actions/checkout@v1
+      # - name: Cache node modules
+      #   uses: actions/cache@v1
+      #   with:
+      #     path: ~/.npm
+      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-node-
 
-      - name: Build Docker Image
-        run: docker build -f Dockerfile-test --tag job .
+      - name: Download Docker Image
+        run: |
+          docker pull ghcr.io/caseyhoover/travis-cicd-tutorial:pr
+          docker image tag job:latest ghcr.io/caseyhoover/travis-cicd-tutorial:pr
+
+      # - name: Build Docker Image
+      #   run: docker build -f Dockerfile-test --tag job .
 
       - name: Start Docker Container
         run: docker run -t -d --name="test-container" job
