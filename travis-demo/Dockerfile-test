@@ -1,12 +1,17 @@
+# Set base image
 FROM node:14-alpine AS build
+
+# Copy application to working directory
 WORKDIR /app
 COPY ./ /app/
-# Install all the dependencies
+
+# Install chromium 
 RUN apk add chromium
 ENV CHROME_BIN=/usr/bin/chromium-browser
+
+# Run npm install
 RUN npm install
 RUN npm install -g @angular/cli
 
 # Generate the build of the application
 RUN npm run build
-RUN ng test --watch=false
