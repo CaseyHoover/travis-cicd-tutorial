@@ -1,13 +1,46 @@
 on: pull_request
-name: Build Angular
+name: Angular Workflow
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [14.x]
+  # build:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [14.x]
 
-    steps:
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: Cache node modules
+  #       uses: actions/cache@v1
+  #       with:
+  #         path: ~/.npm
+  #         key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-node-
+
+  #     - name: Node ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+
+  #     - name: npm install cli and build devkit
+  #       run: |
+  #         npm install -g @angular/cli
+  #         npm install --save-dev @angular-devkit/build-angular
+  #       working-directory: travis-demo
+
+  #     - name: ng lint and build
+  #       run: |
+  #         ng lint
+  #         ng build --prod --base-href https://caseyhoover.github.io/travis-demo/
+  #       working-directory: travis-demo
+
+  docker-test:
+      runs-on: ubuntu-latest
+      name: Analyze Dockerized Angular Project 
+      defaults:
+        run:
+          working-directory: ./travis-demo
+      steps:
       - uses: actions/checkout@v1
       - name: Cache node modules
         uses: actions/cache@v1
@@ -17,34 +50,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
+        - name: Build Docker Image
+          run: docker build -f Dockerfile-test --tag job .
 
-      - name: npm install cli and build devkit
-        run: |
-          npm install -g @angular/cli
-          npm install --save-dev @angular-devkit/build-angular
-        working-directory: travis-demo
+        - name: Lint Angular Project
+          run: docker run --rm -it job ng lint
 
-      - name: ng lint and build
-        run: |
-          ng lint
-          ng build --prod --base-href https://caseyhoover.github.io/travis-demo/
-        working-directory: travis-demo
-
-  docker-build:
-      runs-on: ubuntu-latest
-      name: Generate Docker Build
-      defaults:
-        run:
-          working-directory: ./travis-demo
-      steps:
-        - uses: actions/checkout@v1
-        - name: My first step
-          run: |
-            docker build -f Dockerfile-test -t build-test .
+        - name: Run Angular Unit Tests
+          run: docker run --rm -it job ng test --watch=false
 
       # - name: Push Build to Release
       #   uses: ncipollo/release-action@v1

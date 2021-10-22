@@ -1,6 +1,0 @@
-# action.yml
-name: 'Run Angular Tests in Docker'
-description: 'F'
-runs:
-  using: 'docker'
-  image: 'Dockerfile-test'
