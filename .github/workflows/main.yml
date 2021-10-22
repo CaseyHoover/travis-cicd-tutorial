@@ -30,7 +30,7 @@ jobs:
         run: docker run -t -d --name="test-container" job
 
       - name: Copy Coverage Report to Host
-        run: docker cp test-container:travis-demo/coverage/travis-demo/coverage-final.json .
+        run: docker cp test-container:/app/coverage/travis-demo/coverage-final.json .
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
