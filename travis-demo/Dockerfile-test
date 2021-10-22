@@ -15,6 +15,3 @@ RUN npm install -g @angular/cli
 
 # Generate the build of the application
 RUN npm run build
-
-# Run headless unit tests
-RUN ng test --watch=false
