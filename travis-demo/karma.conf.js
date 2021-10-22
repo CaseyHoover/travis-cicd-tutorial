@@ -28,7 +28,7 @@ module.exports = function (config) {
     },
     coverageIstanbulReporter: {
       dir: require('path').join(__dirname, './coverage/travis-demo'),
-      reports: ['html', 'lcovonly', 'text-summary'],
+      reports: ['html', 'json', 'lcovonly', 'text-summary'],
       fixWebpackSourcePaths: true
     },
     reporters: ['progress', 'kjhtml'],
