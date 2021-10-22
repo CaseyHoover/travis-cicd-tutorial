@@ -48,35 +48,32 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           file: ./travis-demo/Dockerfile-test
 
-  tests-and-code-coverage:
+  lint-project:
       runs-on: ubuntu-latest
       needs: build-and-push-image
-      # defaults:
-      #   run:
-      #     working-directory: ./travis-demo
       steps:
-      # - uses: actions/checkout@v1
-      # - name: Cache node modules
-      #   uses: actions/cache@v1
-      #   with:
-      #     path: ~/.npm
-      #     key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-node-
-
       - name: Download Docker Image
         run: |
           docker pull ghcr.io/caseyhoover/travis-cicd-tutorial:pr
           docker images
-
-      # - name: Build Docker Image
-      #   run: docker build -f Dockerfile-test --tag job .
 
       - name: Start Docker Container
         run: docker run -t -d --name="test-container" ghcr.io/caseyhoover/travis-cicd-tutorial:pr
         
       - name: Lint Angular Project
         run: docker exec test-container ng lint
+
+  tests-and-code-coverage:
+      runs-on: ubuntu-latest
+      needs: build-and-push-image
+      steps:
+      - name: Download Docker Image
+        run: |
+          docker pull ghcr.io/caseyhoover/travis-cicd-tutorial:pr
+          docker images
+
+      - name: Start Docker Container
+        run: docker run -t -d --name="test-container" ghcr.io/caseyhoover/travis-cicd-tutorial:pr
 
       - name: Run Angular Unit Tests
         run: docker exec test-container ng test --watch=false
@@ -96,9 +93,3 @@ jobs:
 
       - name: Stop Docker Container
         run: docker stop test-container
-
-      # - name: Push Build to Release
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #     artifacts: "dist/angular-githubaction/*"
-      #     token: ${{ secrets.CICD }}
