@@ -97,7 +97,7 @@ jobs:
           verbose: true
 
       - name: Stop Docker Container
-              run: docker stop test-container
+        run: docker stop test-container
 
       # - name: Push Build to Release
       #   uses: ncipollo/release-action@v1
