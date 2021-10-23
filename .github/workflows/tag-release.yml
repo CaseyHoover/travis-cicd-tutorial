@@ -8,12 +8,13 @@ jobs:
         steps:
             - name: Check out code
               uses: actions/checkout@v2
+
             - name: Initialize mandatory git config
               run: |
                   git config user.name "GitHub Actions"
                   git config user.email noreply@github.com
+
             - name: Setup release information
-              #get version name from app_versions.gradle file (5.6.2)
               run: |
                   versionName=`cat ./travis-demo/package.json \
                     | grep version \
@@ -21,6 +22,7 @@ jobs:
                     | awk -F: '{ print $2 }' \
                     | sed 's/[", ]//g'`
                   echo "VERSION_NAME=v$versionName" >> $GITHUB_ENV
+                  
             - name: Create Release
               id: create_release
               uses: actions/create-release@v1
