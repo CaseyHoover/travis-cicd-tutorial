@@ -20,7 +20,7 @@ jobs:
                     | head -1 \
                     | awk -F: '{ print $2 }' \
                     | sed 's/[",]//g'`
-                  echo "VERSION_NAME=$versionName" >> $GITHUB_ENV
+                  echo "VERSION_NAME=v$versionName" >> $GITHUB_ENV
             - name: Create Release
               id: create_release
               uses: actions/create-release@v1
@@ -28,7 +28,7 @@ jobs:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                 tag_name: ${{ env.VERSION_NAME }}
-                release_name: v${{ env.VERSION_NAME }}
+                release_name: ${{ env.VERSION_NAME }}
                 body: ${{ steps.extract_release_notes.outputs.release_notes }}
                 draft: false
                 prerelease: false
