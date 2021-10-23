@@ -37,7 +37,9 @@ jobs:
 
       - name: Fail Build if Tag exists
         if: ${{ steps.checkTag.outputs.exists }}
-        run: exit 1
+        run: |
+          echo "Release ${{ env.VERSION_NAME }} already exists - update version to complete PR"
+          exit 1
 
   #     - name: Log in to the Container registry
   #       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
@@ -111,6 +113,7 @@ jobs:
 
   #     - name: Stop Docker Container
   #       run: docker stop test-container
+
 #   create-release:
 #     runs-on: ubuntu-latest
 #     needs: [lint-project, tests-and-code-coverage]
