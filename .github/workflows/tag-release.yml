@@ -20,8 +20,7 @@ jobs:
                     | head -1 \
                     | awk -F: '{ print $2 }' \
                     | sed 's/[",]//g'`
-                  export VERSION_NAME=$versionName
-                  echo "::set-env name=VERSION_NAME::$VERSION_NAME"
+                  echo "{VERSION_NAME}={$versionName}"
             - name: Create Release
               id: create_release
               uses: actions/create-release@v1
