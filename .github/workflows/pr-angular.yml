@@ -7,7 +7,7 @@ env:
 on:
   pull_request:
     branches: [main]
-    
+
 jobs:
   build-and-push-image:
     runs-on: ubuntu-latest
@@ -21,19 +21,21 @@ jobs:
 
       - name: Setup release information
         run: |
-            versionName=`cat ./travis-demo/package.json \
-              | grep version \
-              | head -1 \
-              | awk -F: '{ print $2 }' \
-              | sed 's/[", ]//g'`
-            echo "VERSION_NAME=v$versionName" >> $GITHUB_ENV
+          versionName=`cat ./travis-demo/package.json \
+            | grep version \
+            | head -1 \
+            | awk -F: '{ print $2 }' \
+            | sed 's/[", ]//g'`
+          echo "VERSION_NAME=v$versionName" >> $GITHUB_ENV
 
       - uses: mukunku/tag-exists-action@v1.0.0
+        id: checkTag
+        with:
+          tag: ${{ env.VERSION_NAME }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with: 
-          tag: ${{ env.VERSION_NAME }}
 
+      - name: Check if Tag Exists
       - run: echo ${{ steps.checkTag.outputs.exists }}
 
   #     - name: Log in to the Container registry
@@ -74,7 +76,7 @@ jobs:
 
   #     - name: Start Docker Container
   #       run: docker run -t -d --name="test-container" ghcr.io/caseyhoover/travis-cicd-tutorial:pr
-        
+
   #     - name: Lint Angular Project
   #       run: docker exec test-container ng lint
 
@@ -108,7 +110,6 @@ jobs:
 
   #     - name: Stop Docker Container
   #       run: docker stop test-container
-
 #   create-release:
 #     runs-on: ubuntu-latest
 #     needs: [lint-project, tests-and-code-coverage]
