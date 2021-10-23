@@ -37,7 +37,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fail Build if Tag exists
-        if: ${{ steps.checkTag.outputs.exists }} == "true"
+        if: "contains(${{ steps.checkTag.outputs.exists }}, 'true')"
         run: |
           echo ${{ steps.checkTag.outputs.exists }}
           echo "Release ${{ env.VERSION_NAME }} already exists - update version to complete PR"
