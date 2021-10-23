@@ -34,7 +34,7 @@ jobs:
         with: 
           tag: ${{ env.VERSION_NAME }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         - run: echo ${{ steps.checkTag.outputs.exists }}
 
   #     - name: Log in to the Container registry
