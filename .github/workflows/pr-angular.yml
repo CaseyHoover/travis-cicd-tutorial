@@ -28,12 +28,12 @@ jobs:
               | sed 's/[", ]//g'`
             echo "VERSION_NAME=v$versionName" >> $GITHUB_ENV
 
-      - name: Check if Tag Exists
       - uses: mukunku/tag-exists-action@v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with: 
           tag: ${{ env.VERSION_NAME }}
+
       - run: echo ${{ steps.checkTag.outputs.exists }}
 
   #     - name: Log in to the Container registry
