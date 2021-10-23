@@ -19,7 +19,11 @@ jobs:
                     | grep version \
                     | head -1 \
                     | awk -F: '{ print $2 }' \
+<<<<<<< HEAD
                     | sed 's/[",]//g'`
+=======
+                    | sed 's/[", ]//g'`
+>>>>>>> f122f4ab8d96080e0949a9c0bda7ed6f0793d1a3
                   echo "VERSION_NAME=v$versionName" >> $GITHUB_ENV
             - name: Create Release
               id: create_release
