@@ -19,7 +19,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Setup release information
+      - name: Setup Release Information
         run: |
           versionName=`cat ./travis-demo/package.json \
             | grep version \
