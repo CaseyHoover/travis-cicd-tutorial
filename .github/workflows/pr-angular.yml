@@ -37,8 +37,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fail Build if Tag exists
-        # if: "contains(${{ steps.checkTag.outputs.exists }}, 'false')"
-        if: 'false'
+        if: "contains(${{ steps.checkTag.outputs.exists }}, 'false')"
         run: exit 1
 
   build-and-push-image:
