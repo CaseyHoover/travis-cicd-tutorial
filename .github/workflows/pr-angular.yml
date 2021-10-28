@@ -37,10 +37,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Fail Build if Tag exists
-        if: '${{ steps.checkTag.outputs.exists }}'
-        run: |
-          echo ${{ steps.checkTag.outputs.exists }}
-          exit 1
+        if: steps.checkTag.outputs.exists == 'true'
+        run: exit 1
 
   build-and-push-image:
     needs: validate-release-version
